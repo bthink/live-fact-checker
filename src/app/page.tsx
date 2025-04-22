@@ -3,6 +3,8 @@
 import { useState, useCallback } from 'react';
 import AudioCapture from "@/components/AudioCapture";
 import TranscriptDisplay from "@/components/TranscriptDisplay"; // Import the new component
+import SessionLog from "@/components/SessionLog"; // Import SessionLog
+import SessionSummary from "@/components/SessionSummary"; // Import SessionSummary
 
 // Definicja interfejsu dla wyników fact-checkingu
 interface FactCheckResult {
@@ -141,7 +143,7 @@ export default function Home() {
   const isBusy = isProcessingAudio || isDetectingClaims || isFactChecking;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-6 md:p-24 space-y-6">
+    <main className="flex min-h-screen flex-col items-center p-6 md:p-24 space-y-6">
       <h1 className="text-3xl md:text-4xl font-bold text-center">Live Fact-Checker</h1>
       <AudioCapture
         isProcessing={isBusy}
@@ -149,15 +151,16 @@ export default function Home() {
         onTranscriptionReceived={handleNewTranscriptSegment}
       />
       <TranscriptDisplay transcript={transcript} />
+
+      {/* Użycie SessionLog do wyświetlenia wyników */}
+      <SessionLog results={factCheckResults} />
+
+      {/* Dodanie SessionSummary */}
+      <SessionSummary results={factCheckResults} />
+
       {/* Wskaźniki stanu */} 
       {isDetectingClaims && <p className="text-sm text-blue-500">Detecting claims...</p>}
       {isFactChecking && <p className="text-sm text-purple-500">Fact-checking claims...</p>}
-
-      {/* TODO: Wyświetlanie factCheckResults w Kroku 6 (AlertBox) */}
-      {/* Tymczasowy log stanu factCheckResults */}
-      <pre className="w-full max-w-md text-xs bg-gray-100 text-gray-800 p-2 rounded overflow-x-auto">
-        FactCheck Results: {JSON.stringify(factCheckResults, null, 2)}
-      </pre>
     </main>
   );
 }
