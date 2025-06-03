@@ -144,7 +144,6 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-6 md:p-24 space-y-6">
-      <h1 className="text-3xl md:text-4xl font-bold text-center">Live Fact-Checker</h1>
       <AudioCapture
         isProcessing={isBusy}
         onProcessingChange={handleProcessingAudioChange}
